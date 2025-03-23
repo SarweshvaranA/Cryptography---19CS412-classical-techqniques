@@ -265,7 +265,9 @@ The program is executed successfully
 
 
 ---------------------------
-
+# Cryptography---19CS412-classical-techqniques
+# Name:SARWESHVARAN A
+# Regno:212223230198
 # Hill Cipher
 Hill Cipher using with different key values
 
@@ -293,65 +295,73 @@ The cipher can, be adapted to an alphabet with any number of letters. All arithm
 
 
 ## PROGRAM:
-PROGRAM:
-#include <stdio.h> #include <string.h>
-int keymat[3][3] = { { 1, 2, 1 }, { 2, 3, 2 }, { 2, 2, 1 } };
-int invkeymat[3][3] = { { -1, 0, 1 }, { 2, -1, 0 }, { -2, 2, -1 } }; char key[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-char encode(char a, char b, char c) { char ret[4];
-int x, y, z;
-int posa = (int) a - 65; int posb = (int) b - 65; int posc = (int) c - 65;
-x = posa * keymat[0][0] + posb * keymat[1][0] + posc * keymat[2][0];
-y = posa * keymat[0][1] + posb * keymat[1][1] + posc * keymat[2][1];
-z = posa * keymat[0][2] + posb * keymat[1][2] + posc * keymat[2][2]; ret[0] = key[x % 26];
-ret[1] = key[y % 26]; ret[2] = key[z % 26]; ret[3] = '\0';
-return ret;
-}
-char decode(char a, char b, char c) { char ret[4];
-int x, y, z;
-int posa = (int) a - 65; int posb = (int) b - 65; int posc = (int) c - 65;
- 
-x = posa * invkeymat[0][0] + posb * invkeymat[1][0] + posc * invkeymat[2][0];y = posa * invkeymat[0][1] + posb * invkeymat[1][1] + posc * invkeymat[2][1];z = posa
-* invkeymat[0][2] + posb * invkeymat[1][2] + posc * invkeymat[2][2];ret[0] = key[(x % 26 < 0) ? (26 + x % 26) : (x % 26)];
-ret[1] = key[(y % 26 < 0) ? (26 + y % 26) : (y % 26)];
-ret[2] = key[(z % 26 < 0) ? (26 + z % 26) : (z % 26)];
-ret[3] = '\0'; return ret;
-}
-int main() { char msg[1000];
-char enc[1000] = ""; char dec[1000] = ""; int n;
-strcpy(msg, "SecurityLaboratory"); printf("Simulation of Hill Cipher\n"); printf("Input message : %s\n", msg); for (int i = 0; i < strlen(msg); i++) { msg[i] = toupper(msg[i]);
-}
-// Remove spaces
-n = strlen(msg) % 3;
-// Append padding text X if (n != 0) {
-for (int i = 1; i <= (3 - n); i++) {
-strcat(msg, "X");
-}
-}
-printf("Padded message : %s\n", msg); for (int i = 0; i < strlen(msg); i += 3) { char a = msg[i];
-char b = msg[i + 1]; char c = msg[i + 2];
-strcat(enc, encode(a, b, c));
-}
-printf("Encoded message : %s\n", enc); for (int i = 0; i < strlen(enc); i += 3) { char a = enc[i];
-char b = enc[i + 1]; char c = enc[i + 2];
-strcat(dec, decode(a, b, c));
- 
-}
-printf("Decoded message : %s\n", dec); return 0;
+```
+#include <stdio.h>
+
+int key[3][3] = {
+    {6, 24, 1},
+    {13, 16, 10},
+    {20, 17, 15}
+};
+
+int inverseKey[3][3] = {
+    {8, 5, 10},
+    {21, 8, 21},
+    {21, 12, 8}
+};
+
+int main() {
+    char msg[4];  
+    unsigned int enc[3] = {0}, dec[3] = {0};
+
+    printf("Enter plain text (3 letters): ");
+    scanf("%3s", msg);
+    msg[3] = '\0';  
+
+    // Convert to uppercase
+    for (int i = 0; i < 3; i++) {
+        if (msg[i] >= 'a' && msg[i] <= 'z') {
+            msg[i] -= 32;
+        }
+    }
+
+    // Encryption
+    for (int i = 0; i < 3; i++) {
+        enc[i] = 0;
+        for (int j = 0; j < 3; j++) {
+            enc[i] += key[i][j] * (msg[j] - 'A');
+        }
+        enc[i] = enc[i] % 26;
+    }
+
+    printf("Encrypted Cipher Text: %c%c%c\n", enc[0] + 'A', enc[1] + 'A', enc[2] + 'A');
+
+    // Decryption
+    for (int i = 0; i < 3; i++) {
+        dec[i] = 0;
+        for (int j = 0; j < 3; j++) {
+            dec[i] += inverseKey[i][j] * enc[j];
+        }
+        dec[i] = (dec[i] % 26 + 26) % 26;
+    }
+
+    printf("Decrypted Cipher Text: %c%c%c\n", dec[0] + 'A', dec[1] + 'A', dec[2] + 'A');
+
+    return 0;
 }
 
-
+```
 ## OUTPUT:
-OUTPUT:
-Simulating Hill Cipher
 
+![image](https://github.com/user-attachments/assets/bee86bc0-32b3-4f36-97cb-6f14af8b3dcb)
 
-Input Message : SecurityLaboratory
-Padded Message : SECURITYLABORATORY Encrypted Message : EACSDKLCAEFQDUKSXU Decrypted Message : SECURITYLABORATORY
 ## RESULT:
 The program is executed successfully
 
 -------------------------------------------------
-
+# Cryptography---19CS412-classical-techqniques
+# Name:SARWESHVARAN A
+# Regno:212223230198
 # Vigenere Cipher
 Vigenere Cipher using with different key values
 
@@ -378,50 +388,82 @@ The Vigenere cipher is a method of encrypting alphabetic text by using a series 
 
 
 ## PROGRAM:
-PROGRAM:
-#include<stdio.h> #include<string.h>
-//FunctiontoperformVigenereencryption voidvigenereEncrypt(char*text,constchar*key){ inttextLen= strlen(text);
-intkeyLen=strlen(key); for(inti =0;i< textLen;i++){ charc =text[i]; if(c>='A'&&c<='Z'){
-//Encryptuppercaseletters
-text[i]=((c-'A'+key[i%keyLen]-'A')%26)+'A';
-}else if(c>='a'&&c<='z'){
-//Encryptlowercaseletters
-text[i]=((c-'a'+key[i%keyLen]-'A')%26)+'a';
-}
-}
-}
-//FunctiontoperformVigeneredecryption voidvigenereDecrypt(char*text,constchar*key){ inttextLen= strlen(text);
-intkeyLen=strlen(key);
+```
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
 
-for(inti =0;i< textLen;i++){ charc =text[i]; if(c>='A'&&c<='Z'){
-//Decryptuppercaseletters
- 
-text[i]=((c-'A'-(key[i% keyLen]-'A') +26) %26)+ 'A';
-}else if(c>='a'&&c<='z'){
-//Decryptlowercaseletters
-text[i]=((c-'a'-(key[i% keyLen]-'A') +26) %26)+ 'a';
-}
-}
-}
-intmain(){
-constchar *key="KEY";//Replacewithyourdesired key
-char message[]= "Thisisasecretmessage.";//Replace withyourmessage
-//Encrypt themessage vigenereEncrypt(message,key); printf("EncryptedMessage:%s\n",message);
-//Decrypt themessage backtotheoriginal vigenereDecrypt(message,key); printf("DecryptedMessage:%s\n",message); Return 0;
+#define MAX_LENGTH 100
 
+int main() 
+{
+    char input[MAX_LENGTH];
+    char key[MAX_LENGTH];
+    char result[MAX_LENGTH];
+
+    printf("Enter the text to encrypt: ");
+    fgets(input, MAX_LENGTH, stdin);
+    input[strcspn(input, "\n")] = '\0'; 
+
+    printf("Enter the key: ");
+    fgets(key, MAX_LENGTH, stdin);
+    key[strcspn(key, "\n")] = '\0'; 
+
+    int inputLength = strlen(input);
+    int keyLength = strlen(key);
+
+    for (int i = 0, j = 0; i < inputLength; ++i) 
+    {
+        char currentChar = input[i];
+
+        if (isalpha(currentChar))
+        {
+            int shift = toupper(key[j % keyLength]) - 'A';
+            int base = isupper(currentChar) ? 'A' : 'a';
+
+            result[i] = ((currentChar - base + shift + 26) % 26) + base;
+            ++j;
+        }
+        else
+        {
+            result[i] = currentChar;
+        }
+    }
+
+    result[inputLength] = '\0';
+    printf("Encrypted text: %s\n", result);
+
+    for (int i = 0, j = 0; i < inputLength; ++i) 
+    {
+        char currentChar = result[i];
+
+        if (isalpha(currentChar)) 
+        {
+            int shift = toupper(key[j % keyLength]) - 'A';
+            int base = isupper(currentChar) ? 'A' : 'a';
+
+            result[i] = ((currentChar - base - shift + 26) % 26) + base;
+            ++j;
+        }
+    }
+
+    result[inputLength] = '\0';
+    printf("Decrypted text: %s\n", result);
+
+    return 0;
+}
+```
 ## OUTPUT:
-OUTPUT :
 
-Simulating Vigenere Cipher
+![image](https://github.com/user-attachments/assets/b05f5d9d-56d8-4895-89e6-16119e8be76f)
 
-
-Input Message : SecurityLaboratory
-Encrypted Message : NMIYEMKCNIQVVROWXC Decrypted Message : SECURITYLABORATORY
 ## RESULT:
 The program is executed successfully
 
 -----------------------------------------------------------------------
-
+# Cryptography---19CS412-classical-techqniques
+# Name:SARWESHVARAN A
+# Regno:212223230198
 # Rail Fence Cipher
 Rail Fence Cipher using with different key values
 
@@ -446,57 +488,59 @@ ALGORITHM DESCRIPTION:
 In the rail fence cipher, the plaintext is written downwards and diagonally on successive "rails" of an imaginary fence, then moving up when we reach the bottom rail. When we reach the top rail, the message is written downwards again until the whole plaintext is written out. The message is then read off in rows.
 
 ## PROGRAM:
+```
+#include <stdio.h>
+#include <string.h>
 
-PROGRAM:
-#include<stdio.h> #include<string.h> #include<stdlib.h> main()
-{
-int i,j,len,rails,count,code[100][1000]; char str[1000];
-printf("Enter a Secret Message\n"); gets(str);
-len=strlen(str);
-printf("Enter number of rails\n"); scanf("%d",&rails); for(i=0;i<rails;i++)
-{
-for(j=0;j<len;j++)
-{
-code[i][j]=0;
-}
-}
-count=0; j=0;
-while(j<len)
-{
-if(count%2==0)
-{
-for(i=0;i<rails;i++)
-{
-//strcpy(code[i][j],str[j]);
-code[i][j]=(int)str[j]; j++;
+int main() {
+    int i, j, k, l;
+    char a[20], c[20], d[20];
+
+    printf("\n\t\t RAIL FENCE TECHNIQUE");
+    printf("\n\nEnter the input string : ");
+    fgets(a, sizeof(a), stdin);
+    a[strcspn(a, "\n")] = '\0';  // Remove newline
+
+    l = strlen(a);
+
+    // Encryption
+    for (i = 0, j = 0; i < l; i++) {
+        if (i % 2 == 0)
+            c[j++] = a[i];
+    }
+    for (i = 0; i < l; i++) {
+        if (i % 2 == 1)
+            c[j++] = a[i];
+    }
+    c[j] = '\0';
+
+    printf("\nCipher text after applying rail fence: %s", c);
+
+    // Decryption
+    if (l % 2 == 0)
+        k = l / 2;
+    else
+        k = (l / 2) + 1;
+
+    for (i = 0, j = 0; i < k; i++) {
+        d[j] = c[i];
+        j += 2;
+    }
+    for (i = k, j = 1; i < l; i++) {
+        d[j] = c[i];
+        j += 2;
+    }
+    d[l] = '\0';
+
+    printf("\nText after decryption: %s\n", d);
+
+    return 0;
 }
 
-}
-else
-{
- 
-for(i=rails-2;i>0;i--)
-{
-code[i][j]=(int)str[j]; j++;
-}
-}
-
-count++;
-}
-
-for(i=0;i<rails;i++)
-{
-for(j=0;j<len;j++)
-{
-if(code[i][j]!=0) printf("%c",code[i][j]);
-}
-}
-printf("\n");
-}
+```
 ## OUTPUT:
-OUTPUT:
-Enter a Secret Message wearediscovered
-Enter number of rails 2
-waeicvrderdsoee
+
+![image](https://github.com/user-attachments/assets/341ed59a-089d-4d93-9368-3e44d067ee6e)
+
 ## RESULT:
 The program is executed successfully
